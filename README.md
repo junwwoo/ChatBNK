@@ -45,7 +45,7 @@ BNK부산은행의 공식 금융상품 정보를 요약 제공합니다.
 입출금	/mnu/FPMDPO012001001
 대출	/mnu/FPMLON092100000
 카드	/mnu/FPMCRD122000001
-```text
+```
 
 공통 파서 전략
 
@@ -128,7 +128,7 @@ src/main/java/com/example/demo
 │   └── RedisConfig.java
 │
 └── DemoApplication.java
-```text
+```
 
 ## API 예시
 자연어 질의
