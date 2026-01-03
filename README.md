@@ -89,29 +89,32 @@ React
 Tailwind CSS
 ```
 
-# 프로젝트 백엔드 구조
+# 프로젝트 백엔드 구조 (테스트 파일 제외)
 ```text
 src/main/java/com/example/demo
 ├── api
 │   ├── ChatQueryController.java        # 자연어 질의 API
-│   └── BusanBankCrawlController.java   # 크롤링 테스트/디버그 API
+│   └── BusanBankCrawlController.java   # BNK부산은행 상품 크롤링 API (테스트/실사용 겸용)
 │
 ├── service
-│   ├── ChatQueryService.java            # 의도 분류 + 캐시 처리
-│   └── BusanBankCrawlService.java       # 부산은행 크롤링 로직
+│   ├── ChatQueryService.java           # 의도 분류 + 캐시 처리
+│   ├── BusanBankCrawlService.java      # BNK부산은행 크롤링 로직
+│   ├── QueryLogService.java            # 질의 로그 저장
+│   └── IntentService.java              # 자연어 → 카테고리 분류
 │
 ├── dto
-│   ├── ChatResponse.java
-│   └── BusanProductSummary.java         # 공통 상품 응답 DTO
+│   ├── QueryLogDto.java
+│   ├── BusanProductSummary.java        # 공통 상품 응답 DTO
+│   └── ProductCategory.java            # DEPOSIT / CHECKING / LOAN / CARD
 │
 ├── repository
-│   └── QueryLogRepository.java          # 질의 로그 저장
+│   └── QueryLogRepository.java         # 질의 로그 저장
 │
-├── entity
-│   └── QueryLog.java
+├── domain
+│   └── QueryLog.java                   # JPA Entity
 │
 ├── config
-│   └── RedisConfig.java
+│   └── JacksonConfig.java              # ObjectMapper 설정
 │
 └── DemoApplication.java
 ```
