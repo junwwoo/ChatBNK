@@ -76,7 +76,6 @@ BNK부산은행의 공식 금융상품 정보를 요약 제공합니다.
 실시간 + 캐시 구조 모두 경험 가능
 
 ## 4️. MySQL 로그 저장
-
 사용자의 모든 질의는 MySQL에 저장됩니다.
 
 저장 정보 예시:
@@ -88,20 +87,17 @@ BNK부산은행의 공식 금융상품 정보를 요약 제공합니다.
 
 ## 기술 스택
 Backend
-
 Java 21
 Spring Boot 4.0.1
 Spring Web MVC
 Spring Data JPA
 Spring Data Redis
 Jsoup (HTML 크롤링)
-Infra
-MySQL 8 (Docker)
-Redis (Docker)
-Tooling
+MySQL 8 (캐시 로그 기, 질의 및 응답 기록)
+Redis (캐싱을 통해 응답 시간 개선)
+Swagger (문서화 및 API 테스트)
+Git / GitHub (협업)
 Gradle
-Swagger (OpenAPI)
-Git / GitHub
 
 # 프로젝트 구조
 ```text
@@ -149,7 +145,7 @@ GET /api/chat/query?q=카드 추천&limit=5
     }
   ]
 }
-```text
+```
 
 ## 실행 방법
 ## 1. Docker로 DB & Redis 실행
