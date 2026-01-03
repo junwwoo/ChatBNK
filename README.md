@@ -83,11 +83,11 @@ Spring Web MVC
 Spring Data JPA
 Spring Data Redis
 Jsoup (HTML 크롤링)
-MySQL 8 (캐시 로그 기, 질의 및 응답 기록)
+MySQL 8 (캐시 로그 기록, 질의 및 응답 기록)
 Redis (캐싱을 통해 응답 시간 개선)
 Swagger (문서화 및 API 테스트)
 Git / GitHub (협업)
-Gradle
+Gradle (의존성 관리)
 
 Frontend:
 React
