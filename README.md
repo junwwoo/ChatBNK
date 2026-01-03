@@ -89,7 +89,7 @@ React
 Tailwind CSS
 ```
 
-# 프로젝트 구조
+# 프로젝트 백엔드 구조
 ```text
 src/main/java/com/example/demo
 ├── api
