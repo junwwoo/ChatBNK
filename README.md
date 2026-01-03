@@ -39,11 +39,13 @@ BNK부산은행의 공식 금융상품 정보를 요약 제공합니다.
 
 각 카테고리별 실제 공식 상품 목록 페이지를 Jsoup으로 크롤링합니다.
 
+```text
 카테고리	URL
 예금	/mnu/FPMDPO012009001
 입출금	/mnu/FPMDPO012001001
 대출	/mnu/FPMLON092100000
 카드	/mnu/FPMCRD122000001
+```text
 
 공통 파서 전략
 
@@ -78,46 +80,31 @@ BNK부산은행의 공식 금융상품 정보를 요약 제공합니다.
 사용자의 모든 질의는 MySQL에 저장됩니다.
 
 저장 정보 예시:
-
 질의 문장
-
 분류된 카테고리
-
 캐시 히트 여부
-
 요청 시각
 
 
-🛠 기술 스택
+## 기술 스택
 Backend
 
 Java 21
-
 Spring Boot 4.0.1
-
 Spring Web MVC
-
 Spring Data JPA
-
 Spring Data Redis
-
 Jsoup (HTML 크롤링)
-
 Infra
-
 MySQL 8 (Docker)
-
 Redis (Docker)
-
 Tooling
-
 Gradle
-
 Swagger (OpenAPI)
-
 Git / GitHub
 
 # 프로젝트 구조
+```text
 src/main/java/com/example/demo
 ├── api
 │   ├── ChatQueryController.java        # 자연어 질의 API
@@ -141,12 +128,14 @@ src/main/java/com/example/demo
 │   └── RedisConfig.java
 │
 └── DemoApplication.java
+```text
 
 ## API 예시
 자연어 질의
 GET /api/chat/query?q=카드 추천&limit=5
 
 응답 예시
+```text
 {
   "category": "CARD",
   "cacheHit": true,
@@ -160,11 +149,14 @@ GET /api/chat/query?q=카드 추천&limit=5
     }
   ]
 }
+```text
 
 ## 실행 방법
 ## 1. Docker로 DB & Redis 실행
-docker run -d -p 3306:3306 -e MYSQL_DATABASE=chatbnk mysql:8
-docker run -d -p 6379:6379 redis:7
+실행
+docker compose up -d
+종료
+docker compose down
 
 ## 2️. 애플리케이션 실행
 ./gradlew bootRun
