@@ -59,7 +59,7 @@ BNK부산은행의 공식 금융상품 정보를 요약 제공합니다.
 동일 질문 재요청 시 크롤링 없이 Redis에서 즉시 응답
 첫 요청: cacheHit=false
 이후 요청: cacheHit=true
-## 효과
+### 효과
 응답 속도 대폭 개선
 외부 사이트 요청 최소화
 실시간 + 캐시 구조 모두 경험 가능
@@ -76,7 +76,7 @@ BNK부산은행의 공식 금융상품 정보를 요약 제공합니다.
 
 ## 기술 스택
 ```
-Backend
+Backend :
 Java 21
 Spring Boot 4.0.1
 Spring Web MVC
@@ -88,6 +88,10 @@ Redis (캐싱을 통해 응답 시간 개선)
 Swagger (문서화 및 API 테스트)
 Git / GitHub (협업)
 Gradle
+
+Frontend:
+React
+Tailwind CSS
 ```
 
 # 프로젝트 구조
