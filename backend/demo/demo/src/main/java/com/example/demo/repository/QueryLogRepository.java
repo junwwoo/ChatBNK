@@ -1,0 +1,15 @@
+package com.example.demo.repository;
+
+import com.example.demo.domain.QueryLog;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface QueryLogRepository extends JpaRepository<QueryLog, Long> {
+
+    List<QueryLog> findTop50ByOrderByIdDesc();
+
+    long countByIntent(String intent);
+
+    long countByIntentAndCacheHitTrue(String intent);
+}
