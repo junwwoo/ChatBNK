@@ -25,7 +25,7 @@ BNK부산은행의 공식 금융상품 정보를 요약 제공합니다.
 
 ## 공식 홈페이지 기반 크롤링만 사용
 
-🎯 핵심 기능
+## 핵심 기능
 ## 1️. 자연어 기반 의도 분류
 
 사용자의 질문을 분석하여 아래 4가지 카테고리로 분류합니다.
@@ -142,7 +142,7 @@ src/main/java/com/example/demo
 │
 └── DemoApplication.java
 
-🔗 API 예시
+## API 예시
 자연어 질의
 GET /api/chat/query?q=카드 추천&limit=5
 
@@ -161,13 +161,13 @@ GET /api/chat/query?q=카드 추천&limit=5
   ]
 }
 
-🚀 실행 방법
-1️⃣ Docker로 DB & Redis 실행
+## 실행 방법
+## 1. Docker로 DB & Redis 실행
 docker run -d -p 3306:3306 -e MYSQL_DATABASE=chatbnk mysql:8
 docker run -d -p 6379:6379 redis:7
 
-2️⃣ 애플리케이션 실행
+## 2️. 애플리케이션 실행
 ./gradlew bootRun
 
-3️⃣ Swagger 접속
+## 3️. Swagger 접속
 http://localhost:8080/swagger-ui.html
