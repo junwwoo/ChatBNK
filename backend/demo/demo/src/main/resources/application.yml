@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: demo
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/chatbnk?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    username: chatbnk
+    password: chatbnkpass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
