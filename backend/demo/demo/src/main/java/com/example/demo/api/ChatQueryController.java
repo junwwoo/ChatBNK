@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/chat")
 public class ChatQueryController {
 
-    private final ChatQueryService service;
+    private final ChatQueryService chatQueryService;
 
-    public ChatQueryController(ChatQueryService service) {
-        this.service = service;
+    public ChatQueryController(ChatQueryService chatQueryService) {
+        this.chatQueryService = chatQueryService;
     }
 
     @GetMapping("/query")
@@ -21,6 +21,6 @@ public class ChatQueryController {
             @RequestParam String q,
             @RequestParam(defaultValue = "10") int limit
     ) {
-        return service.handle(q, limit);
+        return chatQueryService.handle(q, limit);
     }
 }

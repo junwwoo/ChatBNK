@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.QueryLog;
-import com.example.demo.dto.BusanSavingProductSummary;
+import com.example.demo.dto.BusanProductSummary;
+import com.example.demo.dto.ProductCategory;
 import com.example.demo.repository.QueryLogRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,80 +14,84 @@ import java.util.List;
 
 @Service
 public class ChatQueryService {
-    private final BnkCapitalCrawlService capitalCrawl;
 
     private final IntentService intentService;
-    private final BusanBankCrawlService busanCrawl;
+    private final BusanBankCrawlService busanCrawlService;
     private final StringRedisTemplate redis;
     private final ObjectMapper objectMapper;
     private final QueryLogRepository queryLogRepository;
 
     public ChatQueryService(
-        IntentService intentService,
-        BusanBankCrawlService busanCrawl,
-        BnkCapitalCrawlService capitalCrawl,
-        StringRedisTemplate redis,
-        ObjectMapper objectMapper,
-        QueryLogRepository queryLogRepository
+            IntentService intentService,
+            BusanBankCrawlService busanCrawlService,
+            StringRedisTemplate redis,
+            ObjectMapper objectMapper,
+            QueryLogRepository queryLogRepository
     ) {
         this.intentService = intentService;
-        this.busanCrawl = busanCrawl;
+        this.busanCrawlService = busanCrawlService;
         this.redis = redis;
         this.objectMapper = objectMapper;
         this.queryLogRepository = queryLogRepository;
-        this.capitalCrawl = capitalCrawl;
     }
 
     public ChatResponse handle(String q, int limit) {
-        IntentService.Intent intent = intentService.classify(q);
+        ProductCategory category = intentService.classify(q);
 
-        if (intent == IntentService.Intent.SAVING) {
-            String cacheKey = "busan:saving:list:limit=" + limit;
-
-            String cachedJson = redis.opsForValue().get(cacheKey);
-            boolean cacheHit = cachedJson != null;
-
-            List<BusanSavingProductSummary> data;
-
-            if (cacheHit) {
-                // JSON 문자열 -> 타입 있는 DTO 리스트로 복원
-                try {
-                    data = objectMapper.readValue(
-                            cachedJson,
-                            new TypeReference<List<BusanSavingProductSummary>>() {}
-                    );
-                } catch (Exception e) {
-                    // 캐시가 깨졌으면 MISS로 처리하고 재생성
-                    cacheHit = false;
-                    data = busanCrawl.crawlSavingProducts(limit);
-                }
-            } else {
-                data = busanCrawl.crawlSavingProducts(limit);
-            }
-
-            if (!cacheHit) {
-                try {
-                    String json = objectMapper.writeValueAsString(data);
-                    redis.opsForValue().set(cacheKey, json, Duration.ofMinutes(10));
-                } catch (Exception e) {
-                    // 캐시는 실패해도 서비스는 돌아가게
-                }
-            }
-
-            queryLogRepository.save(new QueryLog(q, intent.name(), cacheHit, data.size()));
-            return ChatResponse.saving(intent.name(), cacheHit, data);
+        if (category == ProductCategory.UNKNOWN) {
+            queryLogRepository.save(new QueryLog(q, category.name(), false, 0));
+            return ChatResponse.message(
+                    category.name(),
+                    "원하시는 항목을 골라 말해줘요: 예금 / 출금(입출금) / 대출 / 카드\n예) '예금 알려줘', '입출금 통장 추천', '대출 상품 알려줘', '카드 추천'"
+            );
         }
 
-        queryLogRepository.save(new QueryLog(q, intent.name(), false, 0));
-        return ChatResponse.message(intent.name(), "아직은 예금/적금(저축)만 지원해요. 예: '예금 알려줘'");
+        String cacheKey = "busan:" + category.name() + ":list:limit=" + limit;
+
+        String cachedJson = redis.opsForValue().get(cacheKey);
+        boolean cacheHit = cachedJson != null;
+
+        List<BusanProductSummary> data;
+
+        if (cacheHit) {
+            try {
+                data = objectMapper.readValue(
+                        cachedJson,
+                        new TypeReference<List<BusanProductSummary>>() {}
+                );
+            } catch (Exception e) {
+                cacheHit = false;
+                data = busanCrawlService.crawlProducts(category, limit);
+            }
+        } else {
+            data = busanCrawlService.crawlProducts(category, limit);
+        }
+
+        if (!cacheHit) {
+            try {
+                String json = objectMapper.writeValueAsString(data);
+                redis.opsForValue().set(cacheKey, json, Duration.ofMinutes(10));
+            } catch (Exception ignored) {
+                // 캐시는 실패해도 서비스는 돌아가게
+            }
+        }
+
+        queryLogRepository.save(new QueryLog(q, category.name(), cacheHit, data.size()));
+        return ChatResponse.products(category.name(), cacheHit, data);
     }
 
-    public record ChatResponse(String intent, boolean cacheHit, String message, List<BusanSavingProductSummary> products) {
-        static ChatResponse saving(String intent, boolean cacheHit, List<BusanSavingProductSummary> products) {
-            return new ChatResponse(intent, cacheHit, null, products);
+    public record ChatResponse(
+            String category,
+            boolean cacheHit,
+            String message,
+            List<BusanProductSummary> products
+    ) {
+        static ChatResponse products(String category, boolean cacheHit, List<BusanProductSummary> products) {
+            return new ChatResponse(category, cacheHit, null, products);
         }
-        static ChatResponse message(String intent, String message) {
-            return new ChatResponse(intent, false, message, null);
+
+        static ChatResponse message(String category, String message) {
+            return new ChatResponse(category, false, message, null);
         }
     }
 }
