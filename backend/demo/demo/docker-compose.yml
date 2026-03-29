@@ -4,9 +4,9 @@ services:
     container_name: chatbnk-mysql
     environment:
       MYSQL_DATABASE: chatbnk
-      MYSQL_USER: chatbnk
-      MYSQL_PASSWORD: chatbnkpass
-      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_USER: ${DB_USERNAME:-chatbnk}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-chatbnkpass}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpass}
     ports:
       - "3306:3306"
     volumes:

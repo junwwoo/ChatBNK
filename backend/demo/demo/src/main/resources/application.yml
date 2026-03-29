@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:mysql://localhost:3306/chatbnk?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
-    username: chatbnk
-    password: chatbnkpass
+    username: ${DB_USERNAME:chatbnk}
+    password: ${DB_PASSWORD:chatbnkpass}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
