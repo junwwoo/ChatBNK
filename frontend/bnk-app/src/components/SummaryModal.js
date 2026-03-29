@@ -4,11 +4,10 @@ export default function SummaryModal({ show, title, content, link, onClose }) {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
             <div className="bg-white rounded-2xl p-6 w-96 shadow-lg">
-                <h2
-                    className="text-xl font-bold mb-3 text-black-700"
-                    dangerouslySetInnerHTML={{ __html: title.replace(/<\/?mark[^>]*>/g, "") }}
-                ></h2>
-                <p className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: content }}></p>
+                <h2 className="text-xl font-bold mb-3 text-black-700">
+                    {title}
+                </h2>
+                <p className="text-gray-700 mb-4">{content}</p>
                 <div className="flex justify-end gap-3">
                     <button
                         onClick={onClose}
