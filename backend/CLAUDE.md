@@ -67,7 +67,8 @@ docker compose up -d
 
 ## DB 설정 (application.yml)
 
-- MySQL: `jdbc:mysql://localhost:3306/chatbnk` (user: chatbnk / pass: chatbnkpass)
+- MySQL: `jdbc:mysql://localhost:3306/chatbnk`
+- 자격증명: 환경변수 `DB_USERNAME`, `DB_PASSWORD`로 관리 (기본값: chatbnk/chatbnkpass)
 - JPA: ddl-auto update, open-in-view false
 - TimeZone: Asia/Seoul
 
@@ -75,6 +76,7 @@ docker compose up -d
 
 - `chatbnk-mysql` (MySQL 8.0) — port 3306, DB: chatbnk, utf8mb4
 - `chatbnk-redis` (Redis 7-alpine) — port 6379
+- DB 자격증명은 `.env` 파일에서 로드 (`.env.example` 참고)
 
 ## 주요 의존성
 

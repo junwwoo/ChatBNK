@@ -141,14 +141,36 @@ GET /api/chat/query?q=카드 추천&limit=5
 ```
 
 ## 실행 방법
-## 1. Docker로 DB & Redis 실행
-실행
-docker compose up -d
-종료
-docker compose down
 
-## 2️. 애플리케이션 실행
+### 1. 환경변수 설정
+```bash
+cd backend/demo/demo
+cp .env.example .env
+# 필요 시 .env 파일의 비밀번호를 수정하세요
+```
+
+### 2. Docker로 DB & Redis 실행
+```bash
+docker compose up -d    # 실행
+docker compose down     # 종료
+```
+
+### 3. 애플리케이션 실행
+```bash
 ./gradlew bootRun
+```
 
-## 3️. Swagger 접속
+### 4. Swagger 접속
 http://localhost:8080/swagger-ui.html
+
+## 환경변수
+
+민감한 정보는 `.env` 파일로 관리됩니다. `.env` 파일은 Git에 포함되지 않습니다.
+
+| 변수 | 설명 | 기본값 |
+|------|------|--------|
+| `DB_USERNAME` | MySQL 사용자명 | `chatbnk` |
+| `DB_PASSWORD` | MySQL 비밀번호 | `chatbnkpass` |
+| `DB_ROOT_PASSWORD` | MySQL root 비밀번호 | `rootpass` |
+
+> `.env.example` 파일을 복사하여 `.env`를 생성하세요.
