@@ -6,6 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ChatBNK는 BNK 부산은행 금융상품 추천 챗봇이다. 사용자의 자연어 질의를 카테고리(예금/입출금/대출/카드)로 분류하고, BNK 웹사이트를 크롤링하여 상품 정보를 제공한다. Redis 캐싱 + MySQL 쿼리 로그 저장.
 
+## Tech Stack
+
+- **Backend**: Java 21, Spring Boot 4.0.1, Spring Data JPA/Redis, Jsoup, Gradle
+- **Frontend**: React 19, Tailwind CSS 3, Create React App
+- **Infra**: MySQL 8, Redis 7, Docker Compose
+- **Docs**: Swagger (springdoc-openapi 2.6.0)
+
 ## 요청 흐름
 
 ```
